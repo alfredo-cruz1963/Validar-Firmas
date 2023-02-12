@@ -1,0 +1,136 @@
+<div class="container p-5">
+  <div class="row">
+    <div class="col-sm-8 offset-md-2">
+      <div class="card">
+        <div class="card-header bg-dark text-white">
+          <h6>Registrar firma</h6>
+        </div>
+        <div class="card-body">
+          <form action="/firmas/grabar" method="POST">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card card-primary">
+                  <div class="card-body">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" name="cedula"  id="cedula" placeholder="Cedula"
+                        title="Recibe solo numeros" pattern="^([0-9]){5,10}$" value="{{dcto}}" readonly>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" name="nombres" id="nombres" class="form-control" placeholder="Nombres"
+                        value="{{datos.nombres}}" title="Max 30 caracteres" pattern="[a-zA-Z0-9áéíóúñÑ#@$&/ ,.'-]{3,30}"
+                        required>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" name="apellidos" id="apellidos" class="form-control" placeholder="Apellidos"
+                        value="{{datos.apellidos}}" title="Max 30 caracteres"
+                        pattern="[a-zA-Z0-9áéíóúñÑ#@$&/ ,.'-]{3,30}" required>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" name="dir" class="form-control" placeholder="Dirección" value="{{datos.dir}}"
+                        title="Max 30 caracteres" pattern="[a-zA-Z0-9áéíóúñÑ#@$&/ ,.'-]{3,30}">
+                    </div>
+                    <div class="form-group">
+                      <input type="text" name="barrio" class="form-control" placeholder="Barrio"
+                        value="{{datos.barrio}}" title="Max 30 caracteres" pattern="[a-zA-Z0-9áéíóúñÑ#@$&/ ,.'-]{5,30}">
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="cel" id="cel" placeholder="Celular"
+                        value="{{datos.tele}}" title="Recibe solo numeros" pattern="^([0-9]){0,10}$">
+                    </div>
+                  </div>
+                </div>
+                <a href="/firmas/view">Anular</a>
+              </div>
+
+              <div class="col-md-6">
+                <div class="card card-primary" style="height: 300px;">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label>Municipio</label>
+                      <select class="custom-select" name="codmpio" id="codmpio" disabled>
+                        <option selected value="52001">Villavicencio</option>
+                        {{#each cytes }}
+                        <option value="52001">{{mpio}}</option>
+                        {{/each }}
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Puesto de Votación</label>
+                      <select class="custom-select" name="puesto" id="puesto" autofocus required>
+                        <option value="">Seleccione un Puesto...</option>
+                        {{#each puestos }}
+                        <option value="{{codigo}}">{{nombpuesto}}</option>
+                        {{/each }}
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      Planilla
+                      <input type="text" class="form-control" name="planilla" id="planilla" placeholder="Planilla"
+                        title="Recibe solo numeros" pattern="^([0-9]){1,6}$" required>
+                    </div>
+
+
+                    <div class="form-group row mt-2">
+                      <div class="col-sm-12">
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="sexo1" name="sexo" value="1" required class="custom-control-input">
+                          <label class="custom-control-label" for="sexo1">Masculino</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="sexo2" name="sexo" value="2" required class="custom-control-input">
+                          <label class="custom-control-label" for="sexo2">Femenino</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="form-group ">
+                        <button class="btn btn-primary btn-block" id="btnGrabar" onclick="doEnviar()">Grabar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var misexo = {{{ genero }}}
+  const socket = io.connect();
+  const actualiza = "Actualizar";
+
+  if (misexo == 1 || misexo == 2) {
+    if (misexo == 1) {
+      document.querySelector('#sexo1').checked = true;
+    } else {
+      document.querySelector('#sexo2').checked = true;
+    }
+  }
+
+  function doEnviar() {
+    var ok = true;
+
+    if (document.getElementById('nombres').value == '' || document.getElementById('apellidos').value == '' || document.getElementById('planilla').value == '') {
+      ok = false;
+    }
+
+    if (document.getElementById('puesto').value == '') {
+      ok = false;
+    }
+
+    if (!document.querySelector('#sexo1').checked && !document.querySelector('#sexo2').checked) {
+      ok = false;
+    }
+
+    if (ok) {
+      socket.emit("client:addFirma", actualiza);
+    }
+  }
+
+</script>
