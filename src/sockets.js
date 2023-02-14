@@ -11,7 +11,7 @@ module.exports = (io) => {
       var nombcrgto = [];
       var firmcrgto = [];
 
-      await pool.query(`SET sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';`);
+      //await pool.query(`SET sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';`);
       const validas = await pool.query('SELECT COUNT(*) total FROM fvalidas');
       const nulas   = await pool.query('SELECT COUNT(*) total FROM fanuladas');
       const planillas = await pool.query('SELECT COUNT(*) total FROM vtotplanillas');
@@ -48,7 +48,7 @@ module.exports = (io) => {
         var nombcrgto1 = [];
         var firmcrgto1 = [];
   
-        await pool.query(`SET sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';`);
+        //await pool.query(`SET sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';`);
         const validas1 = await pool.query('SELECT COUNT(*) total FROM fvalidas');
         const planillas1 = await pool.query('SELECT COUNT(*) total FROM vtotplanillas');
         const comuna1 = await pool.query('SELECT comuna, total FROM vtotcomunas');
