@@ -24,16 +24,27 @@ ctrlquerys.rangofechas = (req, res) => {
 ctrlquerys.listproduc = async (req, res) => {
   const {desde, hasta} = req.body;
 
-  mquery = `SELECT fvalidas.usuario, 
-  users.fullname AS nombre, 
-  COUNT(fvalidas.usuario) AS total 
-  FROM fvalidas 
-  INNER JOIN users 
-  ON fvalidas.usuario = users.username 
-  WHERE fvalidas.fecha >= ? 
-  AND fvalidas.fecha <= ? 
-  GROUP BY fvalidas.usuario 
-  ORDER BY fvalidas.usuario`
+/*   mquery = `SELECT fvalidas.usuario, 
+    users.fullname AS nombre, 
+    COUNT(fvalidas.usuario) AS total 
+    FROM fvalidas 
+    INNER JOIN users 
+    ON fvalidas.usuario = users.username 
+    WHERE fvalidas.fecha >= ? 
+    AND fvalidas.fecha <= ? 
+    GROUP BY fvalidas.usuario 
+    ORDER BY fvalidas.usuario` */
+
+  mquery = `SELECT fvalidas.usuario,
+    users.fullname AS nombre,
+    COUNT(fvalidas.usuario) AS total
+    FROM fvalidas
+    INNER JOIN users
+    ON fvalidas.usuario = users.username
+    WHERE fvalidas.fecha >= ?
+    AND fvalidas.fecha <= ?
+    GROUP BY fvalidas.usuario, users.fullname
+    ORDER BY fvalidas.usuario`
 
   var datos = await pool.query(mquery, [desde, hasta]);
 
