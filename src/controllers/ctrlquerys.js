@@ -24,17 +24,6 @@ ctrlquerys.rangofechas = (req, res) => {
 ctrlquerys.listproduc = async (req, res) => {
   const {desde, hasta} = req.body;
 
-/*   mquery = `SELECT fvalidas.usuario, 
-    users.fullname AS nombre, 
-    COUNT(fvalidas.usuario) AS total 
-    FROM fvalidas 
-    INNER JOIN users 
-    ON fvalidas.usuario = users.username 
-    WHERE fvalidas.fecha >= ? 
-    AND fvalidas.fecha <= ? 
-    GROUP BY fvalidas.usuario 
-    ORDER BY fvalidas.usuario` */
-
   mquery = `SELECT fvalidas.usuario,
     users.fullname AS nombre,
     COUNT(fvalidas.usuario) AS total
@@ -331,91 +320,6 @@ ctrlquerys.print2 = async (req, res) => {
 };
 
 
-//**********************************************************************************
-// ************** Imprime las Relacion de firmas Registraduria *********************
-ctrlquerys.print23 = async (req, res) => {
-  const nombpdf = "firmasvalidas.pdf";
-  const datos = await pool.query('SELECT * FROM vfirmasvalid');
-  
-  let y = 105;
-  let x = 50;
-  var pos = 0;
-  var posy = 0;
-  var col = 1;
-
-  const defaultOptions = {
-    margins: { top: 45, left: 40, right: 40, bottom: 45 },
-    size: 'A4'
-    //layout: 'landscape'
-  };
-
-  const doc = new PDFDocument({ autoFirstPage: false });
-  doc.on('pageAdding', e => {
-    e.options = defaultOptions;
-  });
-
- 
-  //doc.addPage(defaultOptions);
-
-  doc
-    .addPage({margins: { top: 45, left: 40, right: 40, bottom: 45 }})
-    .font('Helvetica-Bold', 12)
-    .text('FELIPE CARREÑO')
-    .font('Helvetica-Bold', 10)
-    .text('El poder de la Confianza'+'\n')
-    .text('Listado de Firmas para la Registraduria'+'\n\n')
-    .font('Helvetica-Bold', 7)
-    .text('item', x, 95)
-    .text('cedula', x+25, 95)
-    .text('Nombre', x+60, 95)
-    .text('Planilla', x+225, 95)
-//    .pipe(fs.createWriteStream(path.join(__dirname, '../public/pdfs/' + nombpdf)));
-
-   for (i=0; i < datos.length; i++) {
-    posy = y + 10*pos
-
-    doc
-      .font('Helvetica-Bold', 7)
-      .text((i+1).toString(), x, posy)
-      .text(datos[i].cedula, x+25, posy)
-      .text(datos[i].nombre.substr(0,35) , x+60, posy)
-      .text(datos[i].planilla, x+225, posy);
-
-      pos++;
-      if(pos > 62){
-        y = 105;
-        x = 315;
-        doc
-          .font('Helvetica-Bold', 7)
-          .text('item', x, 95)
-          .text('cedula', x+25, 95)
-          .text('Nombre', x+60, 95)
-          .text('Planilla', x+225, 95);
-    
-        col=2;
-        pos = 0;
-      }
-
-      if((i+1) % 126 == 0 && col == 2){
-        col = 1;
-        x=50;
-
-        doc
-          //.addPage(defaultOptions)
-          //.addPage({margin: 45}) 
-          .addPage({margins: { top: 45, left: 40, right: 40, bottom: 45 }})
-          .font('Helvetica-Bold', 7)
-          .text('item', x, 95)
-          .text('cedula', x+25, 95)
-          .text('Nombre', x+60, 95)
-          .text('Planilla', x+225, 95);
-      }
-    }
-
-  doc.pipe(fs.createWriteStream(path.join(__dirname, '../public/pdfs/' + nombpdf))); 
-  doc.end();
-  res.render('querys/editor.hbs', { file: nombpdf });
-};
 module.exports = ctrlquerys;
 
 

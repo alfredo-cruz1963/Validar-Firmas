@@ -46,7 +46,7 @@
                   <div class="card-body">
                     <div class="form-group">
                       <label>Municipio</label>
-                      <select class="custom-select" name="codmpio" id="codmpio" disabled>
+                      <select class="custom-select" name="codmpio" id="codmpio" readonly>
                         <option selected value="{{datos.codmpio}}">{{nombmpio}}</option>
                         {{#each cytes }}
                         <option value="{{cytes.codigo}}">{{cytes.mpio}}</option>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="form-group">
                       <label>Puesto de Votación</label>
-                      <select class="custom-select" name="puesto" id="puesto" disabled>
+                      <select class="custom-select" name="puesto" id="puesto" readonly>
                         <option selected value="{{datos.puesto}}">{{nombpto}}</option>
                         {{#each puestos }}
                         <option value="{{puestos.codigo}}">{{puestos.nombpuesto}}</option>

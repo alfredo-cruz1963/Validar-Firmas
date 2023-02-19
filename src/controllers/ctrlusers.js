@@ -17,11 +17,12 @@ ctrlusers.add = async (req, res) => {
 // *********** adicciona a la BD *****************
 ctrlusers.new = async (req, res) => {
   const { username, fullname, password, email, cel, rol } = req.body;
-  const musuario = req.body.username;
+  const musuario = req.body.username.toUpperCase();
+
   const usuario = await pool.query('SELECT username FROM users WHERE username = ?', musuario)
 
   const newUser = {
-    username,
+    username: req.body.username.toUpperCase(),
     fullname: req.body.fullname.toLowerCase().trim().split(' ').map(v => v[0].toUpperCase() + v.substr(1)).join(' '),
     password: await helpers.encryptPassword(req.body.username),
     email,
@@ -72,7 +73,7 @@ ctrlusers.update = async (req, res) => {
   const { id } = req.params;
   const { username, fullname, email, cel, rol } = req.body;
   const newUser = {
-    username,
+    username: req.body.username.toUpperCase(),
     fullname: req.body.fullname.toLowerCase().trim().split(' ').map(v => v[0].toUpperCase() + v.substr(1)).join(' '),
     email,
     cel,

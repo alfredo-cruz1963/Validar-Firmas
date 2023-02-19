@@ -73,7 +73,6 @@ ctrlfirmas.muestra = async (req, res) => {
   const cytes = await pool.query('SELECT * FROM dane');
   const puestos = await pool.query("SELECT codigo, CONCAT(codcom, ' ', nombpuesto) As nombpuesto FROM divipol WHERE codmpio = '52001'");
 
-  console.log("envio cedula ", mcedula)
   if (dbMeta.length > 0) {
     msexo = dbMeta[0].sexo;
     mcodmpio = dbMeta[0].codmpio;
@@ -101,8 +100,6 @@ ctrlfirmas.grabar = async (req, res) => {
     usuario: req.user.username,
     fecha: new Date()
   };
-
-  console.log(newFirma)
 
   newFirma.nombres = newFirma.nombres.toUpperCase();
   newFirma.apellidos = newFirma.apellidos.toUpperCase();
@@ -132,6 +129,8 @@ ctrlfirmas.edit = async (req, res) => {
     } else {
       var xsexo = false;
     };
+
+console.log(datos);
 
     mcodmpio = datos[0].codmpio;
     const cytes = await pool.query('SELECT * FROM dane WHERE codigo = ?', mcodmpio);
