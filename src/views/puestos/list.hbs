@@ -27,8 +27,10 @@
               <td style="font-size:85%;">{{total }}</td>
               <td style="font-size:85%;">{{mesas }}</td>
               <td>
+                {{#if (eq user.rol 'Administrador')}}
                 <a href="/puestos/edit/{{codigo }}" class="material-icons btn-xs btn-primary">create</a>
                 <a href="/puestos/delete/{{codigo }}" class="material-icons btn-xs btn-danger">delete</a>
+                {{ /if}}
               </td>
             </tr>
             {{/each }}
