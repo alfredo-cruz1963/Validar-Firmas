@@ -15,6 +15,7 @@ router.post('/update', isLoggedIn, querysctrl.update);
 router.get('/delete/:cedula', isLoggedIn,querysctrl.delete);
 router.get('/print1', isLoggedIn, querysctrl.print1);
 router.get('/print2', isLoggedIn, querysctrl.print2);
-
+router.get('/exportar', isLoggedIn, querysctrl.exportar);
+router.get('/descargar', isLoggedIn, querysctrl.descargar);
 
 module.exports = router;
