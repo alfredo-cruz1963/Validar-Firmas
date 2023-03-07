@@ -5,7 +5,7 @@ const fs = require('fs');
 const PDFDocument = require('pdfkit');
 const path = require('path');
 const excelJS = require('exceljs');
-const nameFileExcel = "firmas.Validas.xlsx";
+const nameFileExcel = "firmas-Validas.xlsx";
 
 //***** despliega la pagina para la consulta por planilla ****
 ctrlquerys.add = (req, res) => {
